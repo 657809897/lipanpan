@@ -1,0 +1,59 @@
+ <!doctype html>
+<html>
+<head>
+	<meta charset='utf-8'/>
+	<title></title>
+	<style>
+	*{ margin:0; padding:0;} 
+	#nav,#nav1{ height:30px; width:200px; border:1px solid red; margin: 0 auto; border-bottom:none; overflow:hidden;}
+	#nav a,#nav1 a{ float:left; text-decoration:none;color:black; line-height:30px; width:33.3%; text-align:center; background:#999;}
+	#content,#content1{ height:200px; width:200px; border:1px solid red; margin:0 auto; overflow:hidden; border-top:none;}
+	#content span,#content1 span{display:none; float:left;}
+	#content .span1,#content1 .span1{ display:block;}
+	</style>
+	<script>
+		window.onload=function(){
+			function add(c,b){
+				var as=document.getElementById(c).getElementsByTagName("a");
+				var spans=document.getElementById(b).getElementsByTagName("span");
+					for(var i = 0;i<as.length;i++){
+						as[i].index=i;
+						as[i].onclick=function(){
+							for(var i = 0;i<as.length;i++){
+								spans[i].className="";
+							}
+							spans[this.index].className="span1";
+						}
+					}
+			}
+			add("nav","content");
+			add("nav1","content1");
+			//add();
+		}
+	</script>
+</head>
+<body>
+	<div id="nav">
+		<a href="#" title="内容1">图片</a>
+		<a href="#" title="内容2">音乐</a>
+		<a href="#" title="内容3">图书</a>
+	</div>
+	<div id="content">
+		<span class="span1"><img src="star.jpg" alt="" title="star"/></span>
+		<span>在20世纪初，有一位名叫贝奈狄特斯的法国人在整理化学药品时，不小心将一个玻璃瓶从架子上碰落。随着</span>
+		<span><img src="book.png" alt="" title="book"/></span>
+	</div>
+	<div id="nav1">
+		<a href="#" title="内容1">图片</a>
+		<a href="#" title="内容2">音乐</a>
+		<a href="#" title="内容3">图书</a>
+	</div>
+	<div id="content1">
+		<span class="span1"><img src="star.jpg" alt="" title="star"/></span>
+		<span>在20世纪初，有一位名叫贝奈狄特斯的法国人在整理化学药品时，不小心将一个玻璃瓶从架子上碰落。随着</span>
+		<span><img src="book.png" alt="" title="book"/></span>
+	</div>
+</body>
+</html>
+
+
