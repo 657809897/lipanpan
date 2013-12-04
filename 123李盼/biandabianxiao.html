@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8'/>
+  <title></title>
+  <style>
+  #div1{ height:10px; width:10px; background:red;}
+  </style>
+  <script>
+  window.onload=function(){
+	var btn = document.getElementById("btn");
+	var div1 = document.getElementById("div1");
+	var w = 0;
+	var speed = 1;
+	btn.onclick=function(){
+		setInterval(function(){
+			w+=speed;
+			/*if(speed>0&&w>=200){
+				//speed=-1;		//等同于speed = -speed;
+				speed = -speed;
+			}
+			if(speed<0&&w<=10){
+				//speed=1;		//等同于speed = -speed;
+				speed = -speed;		
+			}*/
+			if((speed>0&&w>=200)||(speed<0&&w<=10)){
+				speed = -speed;
+			}
+			div1.style.height=w+"px";
+			div1.style.width=w+"px";
+		},10)
+	}
+  }
+  </script>
+</head>
+<body>
+	<input id="btn" type="button" value="按钮"/>
+	<div id="div1"></div>
+</body>
+</html>
+
+

@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset='utf-8'/>
+	<title></title>
+	<style>
+	*{ margin:0; padding:0;font-style:normal;}
+	input{margin-right:30px;}
+	#div1 span,#div1 var,#div1 em{ float:left; height:20px; width:30px; border:1px solid black; margin-left:1px; text-align:center; color:red; font-weight:bold;}
+	</style>
+	<script>
+	window.onload=function(){
+		var btn1 = document.getElementById("btn1");
+		var btn2 = document.getElementById("btn2");
+		var div1 = document.getElementById("div1");
+		var span = document.getElementById("span");
+		var var1 = document.getElementById("var1");
+		var em = document.getElementById("em");
+		var m = 0;
+		var s = 0;
+		var h = 0;
+		var time = null;
+		btn1.onclick=function(){
+			//alert(span.innerText);
+			//alert(var1.innerText);
+			//alert(em.innerText);
+		function b(a){
+			if(a<10){
+			return "0"+a;
+			}
+			else{
+			return a;
+			}
+		}
+		time=clearInterval(time);
+		function a(){
+			m+=1;
+			if(m>=60){
+				s+=1;
+				m = 0;
+				if(s>=60){
+					h+=1;
+					s = 0;
+					if(h>=24){
+						h = 0;
+					}
+					span.innerText=b(h);
+				}
+				var1.innerText=b(s);
+			}
+			em.innerText=b(m);
+		}
+		time=setInterval(a,100)
+		}
+		btn2.onclick=function(){
+			time=clearInterval(time);
+		}
+	}
+	</script>
+</head>
+<body>
+	<input id="btn1" type="button" value="开始"/>
+	<input id="btn2" type="button" value="停止"/>
+	<div id="div1">
+		<span id="span">00</span>
+		<var id="var1">00</var>
+		<em id="em">00</em>
+	</div>
+</body>
+</html>
+
+
