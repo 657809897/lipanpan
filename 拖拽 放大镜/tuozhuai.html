@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset='utf-8'/>
+	<title></title>
+	<style>
+	#div1{ height:50px; width:50px; background:green; position:absolute;top:0px; left:0px;}
+	</style>
+	<script>
+	window.onload=function(){
+		var div1 = document.getElementById("div1");
+		function getStyle(tag,prop){
+			var a;
+			if(prop in document.body.style){
+				if(window.getComputedStyle){
+					a = document.defaultView.getComputedStyle(tag,null)[prop];
+				}
+				else{
+					a = tag.currentStyle[prop];
+				}
+			}
+			else{
+				a = tag[prop];
+			}
+			a = parseFloat(a);
+			if (isNaN(a)){
+				a = 0;
+			}
+			return a;
+		}
+		//alert(div1.offsetLeft);
+		document.onmousedown=function(ev){
+			var ev = ev||window.event;
+			if(ev.preventDefault){
+			   ev.preventDefault();
+			}
+			else{
+				ev.returnValue=false;
+			}
+			var xm = ev.clientX;             //鼠标x轴的值
+			var l =	getStyle(div1,"left");		//div的左边值
+			//alert(l)
+			var tm = ev.clientY;
+			var t = getStyle(div1,"top");
+			//alert(l);
+			document.onmousemove=function(ev){
+				var ev = ev||window.event;
+				if(ev.preventDefault){
+					ev.preventDefault();
+				}
+				else{
+					ev.returnValue=false;
+				}
+				var movl=ev.clientX-xm+l;;
+				var movt =ev.clientY-tm+t;;
+				if(movl<=0){
+					movl = 0;
+				}
+				if(movl>=document.documentElement.clientWidth-div1.offsetWidth){
+					movl = document.documentElement.clientWidth-div1.offsetWidth;
+				}
+				if(movt<=0){
+					movt = 0;
+				}
+				if(movt>=document.documentElement.clientHeight-div1.offsetHeight){
+					movt = document.documentElement.clientHeight-div1.offsetHeight;
+				}
+				div1.style.left=movl+"px";
+				div1.style.top=movt+"px";
+			}
+		}
+		document.onmouseup=function(){
+			document.onmousemove=null;
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="div1"></div>
+	sdgaaaaaaaaaaaaaaaaaaaaaaa
+</body>
+</html>
+
+

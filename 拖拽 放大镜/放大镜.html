@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset='utf-8'/>
+	<title></title>
+	<style>
+	*{ margin:0; padding:0;}
+	#small{ height:350px; width:350px; border:1px solid #ccc; float:left; position:relative;}
+	#div1{ height:150px; width:150px; background:#ffff00; opacity:0.3; position:absolute;left:0;top:0;display:none; cursor:move; filter:alpha(opacity=30);}
+	#big{ height:400px; width:400px; border:1px solid #ccc; float:left; overflow:hidden; display:none; position:relative;}
+	#big img{ height:800px; width:800px; position:absolute; }
+	</style>
+	<script>
+	window.onload=function(){
+		var small = document.getElementById("small");
+		var img = small.getElementsByTagName("img")[0];
+		var div1 = document.getElementById("div1");
+		var big = document.getElementById("big");
+		var imgs = big.getElementsByTagName("img")[0];
+		small.onmouseover=function(){
+			if (t){
+				clearTimeout(t)
+			}
+			div1.style.display="block";
+			big.style.display="block";
+		}
+		small.onmousemove=function(e){
+			var e = e||window.event;
+			var movl = e.clientX-div1.offsetWidth/2;
+			var movt = e.clientY-div1.offsetHeight/2;
+			if(movl<=0){
+				movl = 0;
+			}
+			if(movl>=small.clientWidth-div1.offsetWidth){
+				movl=small.clientWidth-div1.offsetWidth
+			}
+			if(movt<=0){
+				movt = 0;
+			}
+			if(movt>=small.clientHeight-div1.offsetHeight){
+				movt=small.clientHeight-div1.offsetHeight
+			}
+			div1.style.left=movl+"px";
+			div1.style.top=movt+"px";
+			var a = imgs.offsetWidth/img.offsetWidth;
+			imgs.style.left=-a*div1.offsetLeft+"px";
+			imgs.style.top = -a*div1.offsetTop+"px";
+		}
+		var t;
+		small.onmouseout=function(){
+			t = setTimeout(function(){
+				div1.style.display="none";
+				big.style.display="none";
+			},50);
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="small">
+		<img src="1.jpg" alt="" title=""/>
+		<div id="div1"></div>
+	</div>
+	<div id="big">
+		<img src="2.jpg" alt="" title=""/>
+	</div>
+</body>
+</html>
+
+
