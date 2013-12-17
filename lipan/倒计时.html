@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset='utf-8'/>
+	<title></title>
+</head>
+<body>
+	<div id="div1"></div>
+</body>
+<script>
+setInterval(function(){
+var div1 = document.getElementById("div1");
+var date = new Date(2014,0,31);
+var endtime = date.getTime();
+//alert(endtime);
+var dates = new Date();
+var starttime = dates.getTime();
+//alert(starttime);
+var change = endtime-starttime;
+//alert(change);
+var day = parseInt(change/1000/60/60/24);
+//alert(day);
+var h = parseInt(change/1000/60/60)-(day*24);
+//alert(h);
+var m = parseInt(change/1000/60)-(day*24*60)-(h*60);
+//alert(m);
+var s = parseInt(change/1000)-(day*24*60*60)-(h*60*60)-(m*60);
+//alert(s);
+	div1.innerHTML=day+"天"+h+"小时"+m+"分钟"+s+"秒";
+},1000)
+</script>
+</html>
+
+
