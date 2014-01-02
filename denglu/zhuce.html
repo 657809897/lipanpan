@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset='utf-8'/>
+	<title></title>
+	<style>
+	*{ margin:0;padding:0;}
+	span{ float:left; height:25px; width:80px;}
+	input{ height:25px; width:200px;}
+	#btn{ height:30px; width:80px; margin-left:80px;}
+	#btn2{ height:30px; width:80px; margin-left:30px;}
+	</style>
+	<script src="jquery-1.10.2.min.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<span>用户名：</span><input id="texname" type="text" value=""/><br/><br/>
+		<span>密 码：</span><input id="pass" type="password" value=""/><br/><br/>
+		<span>确认密码：</span></span><input id="pasd" type="password" value=""/><br/><br/>
+		<a href="denglu.html"><input id="btn" type="button" value="立即注册"/></a>
+		<input id="btn2" type="button" value="登录"/>
+		<a id="back" href="#">退出</a>
+	</div>
+	<script>
+	var btn = document.getElementById("btn");
+	var btn2 = document.getElementById("btn2");
+	/*btn.onclick=function(){
+		$.ajax({
+			url:"http://ajaxh518.taobaoxyz.com/api/user/?method=regist&name="+$('#texname').val()+"&password="+$('#pass').val(),  
+			dataType:"jsonp",
+			Jsonp:"jsoncb",
+			success:function(data){
+				if(data.done){
+					alert("注册成功")
+				}
+				else{
+					if(data.code==1){
+						alert("填写不全，如缺少用户名、密码")
+					}
+					if(data.code==2){
+						alert("用户名重复")
+					}
+				}
+			}
+		})
+	} 
+	*/
+	btn2.onclick=function(){
+		var script=document.createElement("script");
+		script.src="http://ajaxh518.taobaoxyz.com/api/user/?method=login&jsoncb=aaa&name="+$('#texname').val()+"&password="+$('#pasd').val();
+		//alert(script.src)
+		document.body.appendChild(script);
+	}
+	function aaa(data){
+		if(data.done){
+			alert("登录成功");
+		}
+		else{
+			alert("登录失败"+data.message);
+
+		}
+	}
+	/*btn.onclick=function(){ 
+		var script = document.createElement("script");
+		script.src="http://ajaxh518.taobaoxyz.com/api/user/?method=regist&jsoncb=abc&name="+$('#texname').val()+"&password="+$('#pass').val();	
+		document.body.appendChild(script);
+	} 
+	function abc(data) {
+		if(data.done){
+			alert("注册成功")
+		}
+		else{
+			if(data.code==0){
+				alert("重新填写")
+			}
+			else{
+				if(data.code==1){
+					alert("填写不全，如缺少用户名、密码")
+				}
+				if(data.code==2){
+					alert("用户名重复")
+				}
+			}
+		}
+	}*/
+	//btn.onclick=function(){
+		//alert("denglu.html");
+	//        }
+	
+	</script>
+</body>
+</html>
+
+
