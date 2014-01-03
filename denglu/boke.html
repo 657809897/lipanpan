@@ -36,6 +36,8 @@
 		<div id="head-r">
 			<h3>用户列表：</h3>
 			<ul id="user"></ul>
+			<input id="person" type="text" value=""/>
+			<input id="click" type="button" value="获取个人信息"/>
 		</div>
 	</div>
 	<div id="user"></div>
@@ -83,46 +85,54 @@
 				if(data.done){
 					//alert("获取成功");
 					console.log(data)
-					//$("<li>"+data.data.name+"</li>").appendTo("#user");
 					for(var i = 0; i < 10;i++){
 						$("<li>"+data.data[i].name+"</li>").appendTo("#user");
 					}
-					var user = document.getElementById("user");
-					var lis = user.getElementsByTagName("li");
-					//alert(lis.length)
-					/*for(var i = 0;i < lis.length ; i++){
-						lis[i].onclick=function(){
-							var script = document.createElement("script");
-							script.src="http://ajaxh518.taobaoxyz.com/api/user/?method=getinfo&jsoncb=acb&name=data.data";
-							document.body.appendChild(script);
-						}
-					}*/
 				}
 				else{
 					alert("失败");
 				}
 			}
-			/*function acb(data){
-				if(data.done){
-					alert("获取成功");
-				}
-				else{
-					alert("失败");
-				}
-			}*/
 		})
+		/*****************************************/
+		var click = document.getElementById("click");
+		click.onclick=function(){
+			var script = document.createElement("script");
+			script.src = "http://ajaxh518.taobaoxyz.com/api/user/?method=getinfo&jsoncb=qq&name="+$('#person').val();
+			document.body.appendChild(script);
+		}
+		function qq(data){
+			if(data.done){
+				alert("用户名:"+data.data.name+"用户ID:"+data.data._id);
+			}
+			else{
+				alert("失败");
+			}
+		}
 		/***************************************/
 		var last = document.getElementById("last");
 		var next = document.getElementById("next");
-		last.onclick=function(){
+		next.onclick=function(){
 		
 			var script = document.createElement("script");
-			script.src="http://ajaxh518.taobaoxyz.com/api/msg/?method=list&jsoncb=sss&page=0&count=10&"
+			script.src="http://ajaxh518.taobaoxyz.com/api/msg/?method=list&jsoncb=sss&page=0&count=10&uid="+$("#texname1").val()||$("#texname").val();
 			document.body.appendChild(script);
 		}
 		function sss(data){
 			if(data.done){
-				
+				page++;
+				alert("");
+			}
+		}
+		last.onclick=function(){
+		
+			var script = document.createElement("script");
+			script.src="http://ajaxh518.taobaoxyz.com/api/msg/?method=list&jsoncb=sss&page=0&count=10&uid="+$("#texname1").val()||$("#texname").val();
+			document.body.appendChild(script);
+		}
+		function sss(data){
+			if(data.done){
+				page--;
 			}
 		}
 	</script>
