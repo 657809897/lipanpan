@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset='utf-8'/>
+	<title></title>
+	<style>
+	*{ margin:0; padding:0;}
+	#head{ height:30px; background:black;}
+	#head #hellow{color:white; text-decoration:none; line-height:30px; float:left;}
+	#back{ color:white; text-decoration:none; line-height:30px; float:right;}
+	#head-l{ width:500px; margin-top:2px; float:left;  margin-left:300px; display:inline;}
+	#tex{ min-height:80px; width:500px; border-radius:10px; border:1px solid #ccc;}
+	#btn{ height:30px; width:50px; margin-left:450px;}
+	#publish{  width:500px; border:1px solid blue;}
+	#publish li{list-style:none; text-indent:1em; background:#ccc; margin-bottom:2px; height:30px; line-height:30px;}
+	#last,#next{ height:25px; width:50px;}
+	#publish a{ float:right; color:black; text-decoration:none;}
+	#publish span{ display:block;}
+	#publish var{font-style:normal;}
+	#head-r{ width:300px; border:1px solid blue; margin-top:2px; float:left; margin-left:80px;display:inline; }
+	#userlist{ float:right; margin-right:370px;}
+	#user li{ list-style:none; background:#ccc; margin-bottom:2px; height:30px; line-height:30px;}
+	</style>
+	<script src="jquery-1.10.2.min.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<div id="head">
+			<a id="back" href="#">退出</a>
+			<a id="hellow" href="#"></a>
+		</div>
+		<div id="head-l">
+			<h3>您想说的话：</h3>
+			<textarea id="tex" cols=20 rows=3></textarea>
+			<input id="btn" type="button" value="发布"/>
+			<h3>博客动态：</h3>
+			<ul id="publish"></ul>
+			<input id="last" type="button" value="上一页"/>
+			<input id="next" type="button" value="下一页"/>
+		</div>
+		<h3 id="userlist">用户列表：</h3>
+		<div id="head-r">
+			<ul id="user"></ul>
+		</div>
+	</div>
+	<div id="user"></div>
+	<script>
+		var back = document.getElementById("back");
+		var btn = document.getElementById("btn");
+		var publish = document.getElementById("publish");
+		/******退出******/
+		back.onclick=function(){
+			var script = document.createElement("script");
+			script.src = "http://ajaxh518.taobaoxyz.com/api/user/?method=logout&jsoncb=ccc";
+			document.body.appendChild(script);
+		}
+		function ccc(data){
+			if(data.done){
+				window.location.href="denglu.html";
+			}
+		}
+		/******发布微博*******/
+		btn.onclick=function(){
+			var script = document.createElement("script");
+			script.src = "http://ajaxh518.taobaoxyz.com/api/msg/?method=add&jsoncb=boke&text="+$('#tex').val();
+			document.body.appendChild(script);
+		}
+		function boke(data){
+			if(data.done){
+				var tex = $("#tex").val();
+				$("<li>"+tex+"<a href='###'>删除</a></li>").prependTo("#publish").hide().slideDown();
+				$("#tex").val("");
+				$("li a").click(function(){
+					$(this).parent().animate({height:"0px"},500,function(){
+						$(this).remove();
+					})
+				})
+			}
+			else{
+				alert(data.message)
+			}
+		}
+		/*******获取用户列表******/
+		$.ajax({
+			url:"http://ajaxh518.taobaoxyz.com:8081/api/user/?method=listuser&page=0&count=10",
+			type:"get",
+			dataType:"jsonp",
+			jsonp:"jsoncb",
+			success:function(data){
+				if(data.done){
+					//console.log(data)
+					for(var i = 0; i < 10;i++){
+						//console.log(data.data[i]._id);
+						$("<li uid="+data.data[i]._id+">"+data.data[i].name+"</li>").appendTo("#user");
+					}
+					
+					var user = document.getElementById("user");
+					var lis = user.getElementsByTagName("li");
+						for(var i = 0;i<lis.length;i++){
+						lis[i].onclick=function(){
+							for(var i = 0; i<lis.length;i++){
+								lis[i].style.color="";
+							}
+							this.style.color="white";
+							tt = this.getAttribute("uid");
+							//alert(tt)
+							ui(tt,0)
+						}
+					}
+				}
+				else{
+					alert("失败");
+				}
+			}
+		})
+		/********获取指定用户*********/
+		var uid;
+		$.ajax({
+			url:"http://ajaxh518.taobaoxyz.com/api/user/?method=getinfo&name="+$('#hellow').val(),
+			type:"get",
+			dataType:"jsonp",
+			jsonp:"jsoncb",
+			success:function(data){
+				if(data.done){
+				//alert("用户名:"+data.data.name+"用户ID:"+data.data._id);
+				uid = data.data._id;
+				ui(uid)
+				//alert(uid)
+				hellow.innerText=data.data.name+"你好";
+				}
+				else{
+					alert("失败");
+				}
+			}
+		})
+		/********已发布微博列表*********/
+		var page1 = 0
+		function ui(userid,page1){
+			$.ajax({
+				url:"http://ajaxh518.taobaoxyz.com:8081/api/msg/?method=list&page="+page1+"&count=10&uid="+userid,
+				type:"get",
+				dataType:"jsonp",
+				jsonp:"jsoncb",
+				success:function(data){	
+					if(data.done){
+						console.log(data)
+						$("#publish li").remove();
+						for(var i = 0; i < 10;i++){
+							//console.log(data.data[i].time)
+							var time2 = new Date(data.data[i].time);
+							var y = time2.getFullYear();
+							var ms = time2.getMonth() + 1;
+							var day = time2.getDate();
+							var h = time2.getHours();
+							var m = time2.getMinutes();
+							var s = time2.getSeconds();
+							m = bbc(m)
+							s = bbc(s)
+
+							function bbc(i){
+								if(i<10){
+									i="0"+i
+								}
+								return i
+							}
+							//console.log(y,ms,day,h,s,m)
+							$("<li>"+data.data[i].text+y + "-" + ms + "-" + day + "&nbsp;" + h + ":" + m + ":" + s +"</li>").appendTo("#publish");
+						}
+					}
+				}
+			})
+		}
+		/*******上一页下一页******/
+		var last = document.getElementById("last");
+		var next = document.getElementById("next");
+		last.onclick=function(){
+			page1--;
+			ui(uid,page1);
+			if(page1<0){
+				alert("到顶了");
+			}
+		}
+		next.onclick=function(){
+			page1++;
+			ui(uid,page1);
+		}
+	</script>
+</body>
+</html>
+
+
